@@ -7,6 +7,7 @@ for (const env of required) {
 
 module.exports = {
   port: process.env.PORT || 5000,
+  nodeEnv: process.env.NODE_ENV || 'development',
   db: {
     name: process.env.DB_NAME,
     user: process.env.DB_USER,
@@ -20,4 +21,13 @@ module.exports = {
     accessExpiration: process.env.JWT_ACCESS_EXPIRATION || '15m',
     refreshExpiration: process.env.JWT_REFRESH_EXPIRATION || '7d',
   },
+  rateLimit: {
+    windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 900000,
+    max: parseInt(process.env.RATE_LIMIT_MAX) || 100,
+  },
+  upload: {
+    dir: process.env.UPLOAD_DIR || 'uploads',
+    maxSize: parseInt(process.env.MAX_FILE_SIZE) || 5242880,
+  },
 };
+
