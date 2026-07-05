@@ -1,11 +1,13 @@
 require('../config/env');
 const { sequelize } = require('../models');
 const seedCategories = require('../seeders/categories.seed');
+const seedAdmin = require('../seeders/admin.seed');
 
 const runSeeders = async () => {
   try {
     await sequelize.sync({ alter: true });
     await seedCategories();
+    await seedAdmin();
     console.log('All seeders completed.');
     process.exit(0);
   } catch (error) {
