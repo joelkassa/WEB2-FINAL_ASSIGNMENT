@@ -41,3 +41,44 @@ module.exports = {
   loginSchema,
   refreshSchema,
 };
+const workerProfileSchema = Joi.object({
+  categoryId: Joi.number().integer().required(),
+  businessName: Joi.string().max(255).optional(),
+  bio: Joi.string().max(2000).optional(),
+  hourlyRate: Joi.number().positive().optional(),
+  address: Joi.string().max(255).optional(),
+  city: Joi.string().max(100).optional(),
+});
+
+const workerUpdateSchema = Joi.object({
+  categoryId: Joi.number().integer().optional(),
+  businessName: Joi.string().max(255).optional(),
+  bio: Joi.string().max(2000).optional(),
+  hourlyRate: Joi.number().positive().optional(),
+  address: Joi.string().max(255).optional(),
+  city: Joi.string().max(100).optional(),
+});
+
+const skillSchema = Joi.object({
+  skillName: Joi.string().min(2).max(100).required(),
+  description: Joi.string().max(1000).optional(),
+  certificationUrl: Joi.string().uri().max(500).optional(),
+});
+
+const categorySchema = Joi.object({
+  name: Joi.string().min(2).max(100).required(),
+  description: Joi.string().max(1000).optional(),
+  icon: Joi.string().max(255).optional(),
+});
+
+module.exports = {
+  validate,
+  registerSchema,
+  loginSchema,
+  refreshSchema,
+  workerProfileSchema,
+  workerUpdateSchema,
+  skillSchema,
+  categorySchema,
+};
+

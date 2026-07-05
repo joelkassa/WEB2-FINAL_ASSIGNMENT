@@ -2,9 +2,12 @@ require('./config/env');
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
+const path = require('path');
 
 const { sequelize } = require('./models');
 const authRoutes = require('./routes/auth');
+const workerRoutes = require('./routes/workers');
+const categoryRoutes = require('./routes/categories');
 const errorHandler = require('./middleware/errorHandler');
 const { generalLimiter } = require('./middleware/rateLimiter');
 
@@ -20,11 +23,15 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(generalLimiter);
 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 app.get('/api/health', (req, res) => {
   res.json({ success: true, message: 'Server is running.' });
 });
 
 app.use('/api/auth', authRoutes);
+app.use('/api/workers', workerRoutes);
+app.use('/api/categories', categoryRoutes);
 
 app.use((req, res) => {
   res.status(404).json({ success: false, message: 'Route not found.' });
@@ -40,7 +47,7 @@ const startServer = async () => {
     console.log('Models synced.');
 
     app.listen(PORT, () => {
-      console.log(`Server running on http://localhost:${PORT}`);
+      console.log('Server running on http://localhost:' + PORT);
     });
   } catch (error) {
     console.error('Failed to start:', error.message);
