@@ -8,6 +8,10 @@ const { sequelize } = require('./models');
 const authRoutes = require('./routes/auth');
 const workerRoutes = require('./routes/workers');
 const categoryRoutes = require('./routes/categories');
+const bookingRoutes = require('./routes/bookings');
+const reviewRoutes = require('./routes/reviews');
+const adminRoutes = require('./routes/admin');
+const disputeRoutes = require('./routes/disputes');
 const errorHandler = require('./middleware/errorHandler');
 const { generalLimiter } = require('./middleware/rateLimiter');
 
@@ -32,6 +36,10 @@ app.get('/api/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/workers', workerRoutes);
 app.use('/api/categories', categoryRoutes);
+app.use('/api/bookings', bookingRoutes);
+app.use('/api/reviews', reviewRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/disputes', disputeRoutes);
 
 app.use((req, res) => {
   res.status(404).json({ success: false, message: 'Route not found.' });

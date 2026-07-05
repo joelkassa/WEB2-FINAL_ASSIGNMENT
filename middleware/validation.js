@@ -35,12 +35,6 @@ const refreshSchema = Joi.object({
   refreshToken: Joi.string().required(),
 });
 
-module.exports = {
-  validate,
-  registerSchema,
-  loginSchema,
-  refreshSchema,
-};
 const workerProfileSchema = Joi.object({
   categoryId: Joi.number().integer().required(),
   businessName: Joi.string().max(255).optional(),
@@ -71,6 +65,25 @@ const categorySchema = Joi.object({
   icon: Joi.string().max(255).optional(),
 });
 
+const bookingCreateSchema = Joi.object({
+  workerId: Joi.number().integer().required(),
+  requestedDate: Joi.date().iso().required(),
+  requestedTime: Joi.string().pattern(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/).optional(),
+  notes: Joi.string().max(2000).optional(),
+});
+
+const reviewSchema = Joi.object({
+  bookingId: Joi.number().integer().required(),
+  rating: Joi.number().integer().min(1).max(5).required(),
+  comment: Joi.string().max(2000).optional(),
+});
+
+const disputeSchema = Joi.object({
+  bookingId: Joi.number().integer().required(),
+  reason: Joi.string().valid('no_show', 'poor_quality', 'payment_issue', 'safety_concern', 'other').required(),
+  description: Joi.string().min(10).max(2000).required(),
+});
+
 module.exports = {
   validate,
   registerSchema,
@@ -80,5 +93,7 @@ module.exports = {
   workerUpdateSchema,
   skillSchema,
   categorySchema,
+  bookingCreateSchema,
+  reviewSchema,
+  disputeSchema,
 };
-
